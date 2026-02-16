@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Drive Gallery</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height:100vh; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center;
+}
+ 
+/* Login Page Styles */
+.login-page {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    animation: fadeIn 0.5s ease;
+}
+ 
+.login-container {
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    width:90%;
+    max-width:400px;
+    animation: slideUp 0.6s ease;
+    text-align:center;
+}
+ 
+.login-container h1 {
+    color:#667eea;
+    margin-bottom:20px;
+    font-size:32px;
+}
+ 
+.login-container p {
+    color:#666;
+    margin-bottom:30px;
+    line-height:1.6;
+}
+ 
+.google-btn {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    padding:15px;
+    background:white;
+    border:2px solid #e0e0e0;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    color:#666;
+}
+ 
+.google-btn:hover {
+    border-color:#667eea;
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(102,126,234,0.3);
+}
+ 
+.google-icon {
+    width:24px;
+    height:24px;
+}
+ 
+/* Gallery Page Styles */
+.gallery-page {
+    display:none;
+    width:100%;
+    min-height:100vh;
+    padding:20px;
+    animation: fadeIn 0.5s ease;
+}
+ 
+.header {
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    animation: slideDown 0.6s ease;
+}
+ 
+.header h2 {
+    color:#667eea;
+}
+ 
+.user-info {
+    color:#666;
+    font-size:14px;
+}
+ 
+.btn-logout {
+    padding:10px 20px;
+    background:#ff4757;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    font-weight:bold;
+}
+ 
+.btn-logout:hover {
+    background:#ee5a6f;
+    transform:translateY(-2px);
+}
+ 
+/* Storage Info Card */
+.storage-card {
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    animation: slideUp 0.65s ease;
+}
+ 
+.storage-card h3 {
+    color:#667eea;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+ 
+.storage-stats {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:15px;
+    margin-bottom:15px;
+}
+ 
+.stat-box {
+    background:#f8f9fa;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+}
+ 
+.stat-label {
+    font-size:12px;
+    color:#666;
+    margin-bottom:5px;
+}
+ 
+.stat-value {
+    font-size:20px;
+    font-weight:bold;
+    color:#667eea;
+}
+ 
+.storage-bar {
+    width:100%;
+    height:25px;
+    background:#e9ecef;
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    margin-top:10px;
+}
+ 
+.storage-bar-fill {
+    height:100%;
+    background:linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition:width 0.5s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:12px;
+    font-weight:bold;
+}
+ 
+.storage-bar-text {
+    position:absolute;
+    width:100%;
+    text-align:center;
+    line-height:25px;
+    font-size:12px;
+    font-weight:bold;
+    color:#333;
+    z-index:1;
+}
+ 
+.upload-section {
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    animation: slideUp 0.7s ease;
+}
+ 
+.upload-section h3 {
+    color:#667eea;
+    margin-bottom:20px;
+}
+ 
+.file-input-wrapper {
+    position:relative;
+    display:inline-block;
+    width:100%;
+    margin-bottom:15px;
+}
+ 
+.file-input-wrapper input[type="file"] {
+    display:none;
+}
+ 
+.file-input-label {
+    display:block;
+    padding:15px;
+    background:#f8f9fa;
+    border:2px dashed #667eea;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+ 
+.file-input-label:hover {
+    background:#e9ecef;
+    border-color:#764ba2;
+}
+ 
+.selected-files {
+    margin:10px 0;
+    color:#666;
+    font-size:14px;
+}
+ 
+.btn {
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    margin-top:10px;
+}
+ 
+.btn-primary {
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+}
+ 
+.btn-primary:hover {
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(102,126,234,0.4);
+}
+ 
+.btn-primary:disabled {
+    opacity:0.5;
+    cursor:not-allowed;
+    transform:none;
+}
+ 
+.gallery-grid {
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    animation: slideUp 0.8s ease;
+}
+ 
+.gallery-grid h3 {
+    color:#667eea;
+    margin-bottom:20px;
+}
+ 
+.items {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
+    gap:15px;
+}
+ 
+.item {
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    transition:transform 0.3s ease;
+    animation: zoomIn 0.5s ease;
+}
+ 
+.item:hover {
+    transform:scale(1.05);
+}
+ 
+.item:hover .delete-btn {
+    opacity:1;
+}
+ 
+.item img, .item video {
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    display:block;
+}
+ 
+.delete-btn {
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:rgba(255,71,87,0.9);
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:35px;
+    height:35px;
+    cursor:pointer;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:all 0.3s ease;
+    z-index:10;
+}
+ 
+.delete-btn:hover {
+    background:#ff4757;
+    transform:scale(1.1);
+}
+ 
+.file-info {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    background:rgba(0,0,0,0.7);
+    color:white;
+    padding:8px;
+    font-size:11px;
+    text-align:center;
+}
+ 
+/* Loading Spinner */
+.spinner {
+    display:none;
+    width:40px;
+    height:40px;
+    margin:20px auto;
+    border:4px solid #f3f3f3;
+    border-top:4px solid #667eea;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+ 
+/* Success/Error Messages */
+.message {
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:bold;
+    animation: slideDown 0.5s ease;
+}
+ 
+.message.success {
+    background:#d4edda;
+    color:#155724;
+    border:1px solid #c3e6cb;
+}
+ 
+.message.error {
+    background:#f8d7da;
+    color:#721c24;
+    border:1px solid #f5c6cb;
+}
+ 
+.storage-info {
+    background:#e3f2fd;
+    padding:10px;
+    border-radius:8px;
+    margin-top:10px;
+    color:#1565c0;
+    font-size:14px;
+    text-align:center;
+}
+ 
+/* Modal for Delete Confirmation */
+.modal {
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+ 
+.modal-content {
+    background:white;
+    margin:15% auto;
+    padding:30px;
+    border-radius:15px;
+    width:90%;
+    max-width:400px;
+    text-align:center;
+    animation: slideUp 0.3s ease;
+}
+ 
+.modal-content h3 {
+    color:#667eea;
+    margin-bottom:15px;
+}
+ 
+.modal-buttons {
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+ 
+.modal-btn {
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:all 0.3s ease;
+}
+ 
+.modal-btn-cancel {
+    background:#e9ecef;
+    color:#666;
+}
+ 
+.modal-btn-delete {
+    background:#ff4757;
+    color:white;
+}
+ 
+.modal-btn:hover {
+    transform:translateY(-2px);
+}
+ 
+/* Animations */
+@keyframes fadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+}
+ 
+@keyframes slideUp {
+    from { transform:translateY(30px); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+}
+ 
+@keyframes slideDown {
+    from { transform:translateY(-30px); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+}
+ 
+@keyframes zoomIn {
+    from { transform:scale(0.8); opacity:0; }
+    to { transform:scale(1); opacity:1; }
+}
+ 
+@keyframes spin {
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+}
+ 
+@keyframes shake {
+    0%, 100% { transform:translateX(0); }
+    25% { transform:translateX(-10px); }
+    75% { transform:translateX(10px); }
+}
+ 
+.shake {
+    animation: shake 0.5s ease;
+}
+ 
+/* Responsive */
+@media(max-width:600px){
+    .items { grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); }
+    .item img, .item video { height:150px; }
+    .header { flex-direction:column; gap:10px; text-align:center; }
+    .storage-stats { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+ 
+<!-- Login Page -->
+<div class="login-page" id="loginPage">
+    <div class="login-container">
+        <h1>🔐 Secure Gallery</h1>
+        <p>Sign in with your Google Account to access 15GB free storage on Google Drive!</p>
+ 
+        <button class="google-btn" id="loginBtn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Sign in with Google
+        </button>
+ 
+        <div class="storage-info">
+            💾 Free 15GB Google Drive Storage
+        </div>
+    </div>
+</div>
+ 
+<!-- Gallery Page -->
+<div class="gallery-page" id="galleryPage">
+    <div class="header">
+        <div>
+            <h2>📸 My Gallery</h2>
+            <div class="user-info" id="userEmail">Google Drive Storage</div>
+        </div>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+ 
+    <!-- Storage Statistics Card -->
+    <div class="storage-card">
+        <h3>💾 Storage Overview</h3>
+        <div class="storage-stats">
+            <div class="stat-box">
+                <div class="stat-label">Used Space</div>
+                <div class="stat-value" id="usedSpace">0 MB</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Available Space</div>
+                <div class="stat-value" id="availableSpace">15 GB</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Total Files</div>
+                <div class="stat-value" id="totalFiles">0</div>
+            </div>
+        </div>
+        <div class="storage-bar">
+            <div class="storage-bar-text" id="storageBarText">0% used</div>
+            <div class="storage-bar-fill" id="storageBarFill"></div>
+        </div>
+    </div>
+ 
+    <div class="upload-section">
+        <h3>Upload Files</h3>
+        <div id="uploadMessage"></div>
+ 
+        <div class="file-input-wrapper">
+            <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+            <label for="fileInput" class="file-input-label">
+                📁 Click to select files
+            </label>
+        </div>
+ 
+        <div class="selected-files" id="selectedFiles"></div>
+ 
+        <button class="btn btn-primary" id="uploadBtn">Upload to Drive</button>
+        <div class="spinner" id="uploadSpinner"></div>
+ 
+        <div class="storage-info">
+            Using Google Drive's 15GB free storage
+        </div>
+    </div>
+ 
+    <div class="gallery-grid">
+        <h3>Your Memories</h3>
+        <div class="items" id="galleryItems">
+            <p style="text-align:center;color:#666;">Upload some files to see them here! 📸</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h3>🗑️ Delete File?</h3>
+        <p>Are you sure you want to delete this file? This action cannot be undone.</p>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" id="cancelDelete">Cancel</button>
+            <button class="modal-btn modal-btn-delete" id="confirmDelete">Delete</button>
+        </div>
+    </div>
+</div>
+ 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+let tokenClient;
+let accessToken = null;
+const CLIENT_ID = "861225298693-lap45j23pb4a3igc41g252vrqerfiurn.apps.googleusercontent.com";
+const SCOPES = "https://www.googleapis.com/auth/drive.file";
+ 
+// Storage tracking
+let totalStorageBytes = 15 * 1024 * 1024 * 1024; // 15GB in bytes
+let usedStorageBytes = 0;
+let fileToDelete = null;
+ 
+// DOM Elements
+const loginPage = document.getElementById("loginPage");
+const galleryPage = document.getElementById("galleryPage");
+const loginBtn = document.getElementById("loginBtn");
+const fileInput = document.getElementById("fileInput");
+const uploadBtn = document.getElementById("uploadBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const selectedFiles = document.getElementById("selectedFiles");
+const uploadSpinner = document.getElementById("uploadSpinner");
+const uploadMessage = document.getElementById("uploadMessage");
+const galleryItems = document.getElementById("galleryItems");
+const deleteModal = document.getElementById("deleteModal");
+const confirmDelete = document.getElementById("confirmDelete");
+const cancelDelete = document.getElementById("cancelDelete");
+ 
+// Storage display elements
+const usedSpaceEl = document.getElementById("usedSpace");
+const availableSpaceEl = document.getElementById("availableSpace");
+const totalFilesEl = document.getElementById("totalFiles");
+const storageBarFill = document.getElementById("storageBarFill");
+const storageBarText = document.getElementById("storageBarText");
+ 
+// Show message function
+function showMessage(element, message, type) {
+    element.innerHTML = `<div class="message ${type}">${message}</div>`;
+    setTimeout(() => element.innerHTML = "", 4000);
+}
+ 
+// Format bytes to readable size
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+}
+ 
+// Update storage display
+function updateStorageDisplay() {
+    const usedGB = usedStorageBytes / (1024 * 1024 * 1024);
+    const availableBytes = totalStorageBytes - usedStorageBytes;
+    const usedPercentage = (usedStorageBytes / totalStorageBytes) * 100;
+ 
+    usedSpaceEl.textContent = formatBytes(usedStorageBytes);
+    availableSpaceEl.textContent = formatBytes(availableBytes);
+    storageBarFill.style.width = usedPercentage + '%';
+    storageBarText.textContent = usedPercentage.toFixed(1) + '% used';
+ 
+    // Change color if storage is running low
+    if (usedPercentage > 90) {
+        storageBarFill.style.background = 'linear-gradient(90deg, #ff4757 0%, #ff6348 100%)';
+    } else if (usedPercentage > 75) {
+        storageBarFill.style.background = 'linear-gradient(90deg, #ffa502 0%, #ff7f50 100%)';
+    } else {
+        storageBarFill.style.background = 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)';
+    }
+}
+ 
+// Initialize Google Identity Services
+window.onload = () => {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: (tokenResponse) => {
+            if (tokenResponse.access_token) {
+                accessToken = tokenResponse.access_token;
+                loginPage.style.display = "none";
+                galleryPage.style.display = "block";
+                showMessage(uploadMessage, "✅ Login Successful! Upload your files.", "success");
+                loadGallery();
+            }
+        },
+    });
+};
+ 
+// Login with Google
+loginBtn.addEventListener("click", () => {
+    tokenClient.requestAccessToken();
+});
+ 
+// Logout
+logoutBtn.addEventListener("click", () => {
+    accessToken = null;
+    usedStorageBytes = 0;
+    loginPage.style.display = "flex";
+    galleryPage.style.display = "none";
+    galleryItems.innerHTML = '<p style="text-align:center;color:#666;">Upload some files to see them here! 📸</p>';
+    updateStorageDisplay();
+});
+ 
+// File selection display
+fileInput.addEventListener("change", () => {
+    const files = fileInput.files;
+    if(files.length > 0) {
+        let totalSize = 0;
+        for(let file of files) {
+            totalSize += file.size;
+        }
+        selectedFiles.innerHTML = `${files.length} file(s) selected (${formatBytes(totalSize)})`;
+    } else {
+        selectedFiles.textContent = "";
+    }
+});
+ 
+// Upload files to Google Drive
+uploadBtn.addEventListener("click", async () => {
+    if (!accessToken) { 
+        showMessage(uploadMessage, "❌ Please login first!", "error");
+        return; 
+    }
+ 
+    const files = fileInput.files;
+    if(files.length === 0) {
+        showMessage(uploadMessage, "❌ Please select files!", "error");
+        return;
+    }
+ 
+    // Check if upload would exceed storage
+    let uploadSize = 0;
+    for(let file of files) {
+        uploadSize += file.size;
+    }
+ 
+    if (usedStorageBytes + uploadSize > totalStorageBytes) {
+        showMessage(uploadMessage, "❌ Not enough storage space!", "error");
+        return;
+    }
+ 
+    uploadBtn.disabled = true;
+    uploadSpinner.style.display = "block";
+    uploadBtn.textContent = "Uploading...";
+ 
+    try {
+        let successCount = 0;
+ 
+        for (const file of files) {
+            const metadata = {
+                name: file.name,
+                mimeType: file.type,
+            };
+ 
+            const form = new FormData();
+            form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+            form.append("file", file);
+ 
+            const response = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType,size,webContentLink,thumbnailLink", {
+                method: "POST",
+                headers: { "Authorization": "Bearer " + accessToken },
+                body: form,
+            });
+ 
+            if(response.ok) {
+                successCount++;
+            } else {
+                console.error("Upload failed for:", file.name);
+            }
+        }
+ 
+        showMessage(uploadMessage, `✅ ${successCount} file(s) uploaded successfully!`, "success");
+        fileInput.value = "";
+        selectedFiles.textContent = "";
+        loadGallery();
+ 
+    } catch(error) {
+        showMessage(uploadMessage, "❌ Upload error: " + error.message, "error");
+        console.error(error);
+    }
+ 
+    uploadBtn.disabled = false;
+    uploadSpinner.style.display = "none";
+    uploadBtn.textContent = "Upload to Drive";
+});
+ 
+// Load gallery from Google Drive
+async function loadGallery() {
+    if(!accessToken) return;
+ 
+    galleryItems.innerHTML = '<div class="spinner" style="display:block;"></div>';
+ 
+    try {
+        const response = await fetch("https://www.googleapis.com/drive/v3/files?fields=files(id,name,mimeType,size,thumbnailLink,webContentLink)&orderBy=createdTime desc", {
+            headers: { "Authorization": "Bearer " + accessToken }
+        });
+ 
+        const data = await response.json();
+        galleryItems.innerHTML = "";
+ 
+        if(!data.files || data.files.length === 0) {
+            galleryItems.innerHTML = '<p style="text-align:center;color:#666;">No files yet. Upload some memories! 📸</p>';
+            totalFilesEl.textContent = "0";
+            usedStorageBytes = 0;
+            updateStorageDisplay();
+            return;
+        }
+ 
+        // Calculate total storage used
+        usedStorageBytes = 0;
+        let fileCount = 0;
+ 
+        data.files.forEach(file => {
+            const isVideo = file.mimeType.startsWith("video/");
+            const isImage = file.mimeType.startsWith("image/");
+ 
+            if(isImage || isVideo) {
+                fileCount++;
+                usedStorageBytes += parseInt(file.size || 0);
+ 
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "item";
+                itemDiv.dataset.fileId = file.id;
+                itemDiv.dataset.fileSize = file.size || 0;
+ 
+                if(isVideo) {
+                    itemDiv.innerHTML = `
+                        <video controls>
+                            <source src="https://drive.google.com/uc?export=download&id=${file.id}" type="${file.mimeType}">
+                        </video>
+                        <button class="delete-btn" onclick="showDeleteModal('${file.id}', '${file.name}')">🗑️</button>
+                        <div class="file-info">${file.name} (${formatBytes(file.size || 0)})</div>
+                    `;
+                } else {
+                    const imgUrl = file.thumbnailLink || `https://drive.google.com/thumbnail?id=${file.id}&sz=w400`;
+                    itemDiv.innerHTML = `
+                        <img src="${imgUrl}" alt="${file.name}" loading="lazy">
+                        <button class="delete-btn" onclick="showDeleteModal('${file.id}', '${file.name}')">🗑️</button>
+                        <div class="file-info">${file.name} (${formatBytes(file.size || 0)})</div>
+                    `;
+                }
+ 
+                galleryItems.appendChild(itemDiv);
+            }
+        });
+ 
+        totalFilesEl.textContent = fileCount;
+        updateStorageDisplay();
+ 
+    } catch(error) {
+        galleryItems.innerHTML = '<p style="color:red;">Error loading gallery. Please refresh.</p>';
+        console.error("Gallery load error:", error);
+    }
+}
+ 
+// Show delete confirmation modal
+function showDeleteModal(fileId, fileName) {
+    fileToDelete = { id: fileId, name: fileName };
+    deleteModal.style.display = "block";
+}
+ 
+// Hide delete modal
+function hideDeleteModal() {
+    deleteModal.style.display = "none";
+    fileToDelete = null;
+}
+ 
+// Cancel delete
+cancelDelete.addEventListener("click", hideDeleteModal);
+ 
+// Confirm delete
+confirmDelete.addEventListener("click", async () => {
+    if (!fileToDelete || !accessToken) return;
+ 
+    try {
+        const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileToDelete.id}`, {
+            method: "DELETE",
+            headers: { "Authorization": "Bearer " + accessToken }
+        });
+ 
+        if(response.ok || response.status === 204) {
+            showMessage(uploadMessage, `✅ File "${fileToDelete.name}" deleted successfully!`, "success");
+            loadGallery();
+        } else {
+            showMessage(uploadMessage, "❌ Failed to delete file", "error");
+        }
+    } catch(error) {
+        showMessage(uploadMessage, "❌ Delete error: " + error.message, "error");
+        console.error(error);
+    }
+ 
+    hideDeleteModal();
+});
+ 
+// Close modal when clicking outside
+window.addEventListener("click", (event) => {
+    if (event.target === deleteModal) {
+        hideDeleteModal();
+    }
+});
+ 
+// Make function global for inline onclick
+window.showDeleteModal = showDeleteModal;
+</script>
+ 
+</body>
+</html>
