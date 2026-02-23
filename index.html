@@ -227,6 +227,10 @@ body {
 .lbclose:hover { border-color:var(--gold); color:var(--gold); background:rgba(212,168,67,.1); }
 #lbctr { position:fixed; bottom:88px; left:50%; transform:translateX(-50%); font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.5em; color:rgba(212,168,67,.3); z-index:2002; }
 
+/* ══ DRIVE IMAGE SPINNER ══ */
+.drive-spin { width:26px; height:26px; border:1px solid rgba(212,168,67,.15); border-top-color:var(--gold); border-radius:50%; animation:dspin .8s linear infinite; }
+@keyframes dspin { to{transform:rotate(360deg)} }
+
 /* ══════════════════════════════════════
    BOTTOM NAV BAR
 ══════════════════════════════════════ */
@@ -806,7 +810,15 @@ function buildCard(img, i, source){
   const card = document.createElement('div');
   card.className = 'pcard';
   card.dataset.source = source;
+  if(img.id) card.dataset.driveId = img.id;
   card.style.transitionDelay = `${(i%8)*.055}s`;
+
+  // Drive image still loading — show spinner placeholder
+  if(source === 'drive' && (!img.url || img.loading)){
+    card.innerHTML = `<div style="width:100%;height:200px;background:#0d0810;display:flex;align-items:center;justify-content:center;"><div class="drive-spin"></div></div>`;
+    obs.observe(card);
+    return card;
+  }
 
   const image = document.createElement('img');
   image.src = img.url; image.alt=''; image.loading='lazy';
@@ -914,26 +926,88 @@ async function initGithub(){
 }
 
 /* ════ LOAD GOOGLE DRIVE PHOTOS ════ */
+const driveBlobCache = {};
+
+async function fetchDriveBlob(fileId){
+  if(driveBlobCache[fileId]) return driveBlobCache[fileId];
+  try {
+    const r = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+      headers:{ Authorization:'Bearer '+accessToken }
+    });
+    if(!r.ok) return null;
+    const blob = await r.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    driveBlobCache[fileId] = blobUrl;
+    return blobUrl;
+  } catch(e){ return null; }
+}
+
 async function loadDrivePhotos(){
   if(!accessToken) return;
   try {
-    const r = await fetch("https://www.googleapis.com/drive/v3/files?fields=files(id,name,mimeType,thumbnailLink)&q=trashed=false&orderBy=createdTime desc", {
-      headers:{ Authorization:'Bearer '+accessToken }
-    });
+    const r = await fetch(
+      "https://www.googleapis.com/drive/v3/files" +
+      "?fields=files(id,name,mimeType)" +
+      "&q=trashed%3Dfalse+and+mimeType+contains+'image/'" +
+      "&orderBy=createdTime+desc&pageSize=50",
+      { headers:{ Authorization:'Bearer '+accessToken } }
+    );
     const data = await r.json();
     drivePhotos = [];
-    if(data.files && data.files.length > 0){
-      data.files.forEach(f=>{
-        const isImg = f.mimeType.startsWith('image/');
-        if(isImg){
-          drivePhotos.push({
-            name: f.name,
-            url: `https://drive.google.com/thumbnail?id=${f.id}&sz=w800`
-          });
-        }
-      });
+
+    if(!data.files || data.files.length === 0){
+      renderAll(); return;
     }
-    renderAll();
+
+    // Build placeholder entries first
+    data.files.forEach(f => {
+      drivePhotos.push({ name:f.name, url:null, id:f.id, loading:true });
+    });
+    renderAll(); // Show spinner cards immediately
+
+    // Fetch each image blob one by one and update in place
+    for(let i = 0; i < data.files.length; i++){
+      const f = data.files[i];
+      const blobUrl = await fetchDriveBlob(f.id);
+      if(blobUrl){
+        drivePhotos[i].url = blobUrl;
+        drivePhotos[i].loading = false;
+
+        // Update allImgs reference
+        const ai = allImgs.find(p => p.id === f.id);
+        if(ai) ai.url = blobUrl;
+
+        // Find and replace the spinner card in DOM
+        const driveCards = grid.querySelectorAll('.pcard[data-source="drive"]');
+        if(driveCards[i]){
+          const card = driveCards[i];
+          card.innerHTML = '';
+          // Rebuild card content
+          const image = document.createElement('img');
+          image.src = blobUrl; image.alt=''; image.loading='lazy';
+          image.style.width='100%'; image.style.height='auto'; image.style.display='block';
+          image.style.objectFit='cover'; image.style.objectPosition='top center';
+          image.style.filter='brightness(.85) saturate(.88) contrast(1.05)';
+          image.style.transition='filter .5s ease, transform .6s cubic-bezier(.25,.46,.45,.94)';
+
+          const glass = document.createElement('div'); glass.className='cglass';
+          ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
+
+          const badge = document.createElement('div');
+          badge.className='src-badge drive'; badge.textContent='Drive';
+
+          const num = document.createElement('div');
+          num.className='cnum'; num.textContent=String(i+1).padStart(2,'0');
+
+          card.appendChild(image); card.appendChild(glass);
+          card.appendChild(badge); card.appendChild(num);
+
+          const imgObj = drivePhotos[i];
+          card.addEventListener('click', ()=> openLb(allImgs.indexOf(imgObj)));
+          card.classList.add('vis');
+        }
+      }
+    }
   } catch(e){ console.warn('Drive load error:', e); }
 }
 
