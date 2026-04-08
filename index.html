@@ -32,7 +32,6 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--gold3); border-radius:2px; }
 
-/* ── PARTICLES ── */
 #pcanvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55; }
 .noise {
   position:fixed; inset:0; z-index:1; pointer-events:none;
@@ -50,12 +49,7 @@ body {
   padding: 20px;
 }
 #pwscreen.hide { opacity:0; pointer-events:none; transform: scale(1.05); }
-.pw-glow {
-  position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(ellipse 55% 45% at 50% 50%, rgba(196,96,122,.06) 0%, transparent 70%),
-    radial-gradient(ellipse 30% 30% at 25% 25%, rgba(212,168,67,.04) 0%, transparent 60%);
-}
+.pw-glow { position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse 55% 45% at 50% 50%, rgba(196,96,122,.06) 0%, transparent 70%), radial-gradient(ellipse 30% 30% at 25% 25%, rgba(212,168,67,.04) 0%, transparent 60%); }
 .pw-topline { display:flex; align-items:center; gap:14px; margin-bottom:30px; opacity:0; animation:fdIn .8s .3s ease forwards; }
 .pw-topline .hbar { height:1px; width:60px; background:linear-gradient(90deg,transparent,var(--gold3)); }
 .pw-topline .hbar.r { background:linear-gradient(90deg,var(--gold3),transparent); }
@@ -142,23 +136,12 @@ body {
 #pcount { font-family:'Cinzel',serif; font-size:2.4rem; font-weight:900; color:rgba(212,168,67,.13); line-height:1; display:block; }
 .secbgletter { position:absolute; right:-15px; top:50%; transform:translateY(-50%); font-family:'Cinzel Decorative',serif; font-size:11rem; font-weight:900; color:rgba(212,168,67,.02); pointer-events:none; user-select:none; line-height:1; }
 
-/* ══ MEDIA TYPE SECTION HEADERS ══ */
-.media-section-header {
-  position:relative; z-index:10;
-  padding:32px 40px 16px;
-  display:flex; align-items:center; gap:20px;
-}
-.media-section-header .ms-label {
-  font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.55em;
-  color:var(--gold3); text-transform:uppercase;
-  display:flex; align-items:center; gap:12px; white-space:nowrap;
-}
-.media-section-header .ms-label .ms-icon { font-size:.9rem; }
+/* ══ MEDIA SECTION HEADERS ══ */
+.media-section-header { position:relative; z-index:10; padding:32px 40px 16px; display:flex; align-items:center; gap:20px; }
+.media-section-header .ms-label { font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.55em; color:var(--gold3); text-transform:uppercase; display:flex; align-items:center; gap:12px; white-space:nowrap; }
+.media-section-header .ms-icon { font-size:.9rem; }
 .media-section-header .ms-line { flex:1; height:1px; background:linear-gradient(90deg,rgba(212,168,67,.2),transparent); }
-.media-section-header .ms-count {
-  font-family:'Cinzel',serif; font-size:.55rem; letter-spacing:.3em;
-  color:rgba(212,168,67,.25); white-space:nowrap;
-}
+.media-section-header .ms-count { font-family:'Cinzel',serif; font-size:.55rem; letter-spacing:.3em; color:rgba(212,168,67,.25); white-space:nowrap; }
 
 /* ══ LOAD BAR ══ */
 .load-wrap { position:relative; z-index:10; padding:0 40px 6px; display:flex; flex-direction:column; align-items:center; gap:10px; }
@@ -174,7 +157,7 @@ body {
 @media(max-width:480px){ .ggrid{column-count:1} }
 
 /* Source tabs */
-.source-tabs { display:flex; align-items:center; gap:10px; margin-bottom:20px; justify-content:center; }
+.source-tabs { display:flex; align-items:center; gap:10px; margin-bottom:20px; justify-content:center; flex-wrap:wrap; }
 .stab { font-family:'Cinzel',serif; font-size:.55rem; letter-spacing:.4em; text-transform:uppercase; padding:8px 22px; border:1px solid rgba(212,168,67,.15); background:transparent; color:rgba(212,168,67,.35); cursor:pointer; transition:all .3s; }
 .stab.active { border-color:rgba(212,168,67,.5); color:var(--gold); background:rgba(212,168,67,.04); }
 .stab:hover { border-color:rgba(212,168,67,.35); color:rgba(212,168,67,.7); }
@@ -186,32 +169,13 @@ body {
 .pcard:hover .src-badge { opacity:1; }
 
 /* Video badge */
-.vid-badge {
-  position:absolute; top:9px; right:9px; z-index:4;
-  background:rgba(0,0,0,.7); border:1px solid rgba(212,168,67,.3);
-  border-radius:3px; padding:3px 8px;
-  font-family:'Cinzel',serif; font-size:.42rem; letter-spacing:.2em;
-  color:var(--gold2); pointer-events:none;
-  display:flex; align-items:center; gap:5px;
-}
+.vid-badge { position:absolute; top:9px; right:9px; z-index:4; background:rgba(0,0,0,.7); border:1px solid rgba(212,168,67,.3); border-radius:3px; padding:3px 8px; font-family:'Cinzel',serif; font-size:.42rem; letter-spacing:.2em; color:var(--gold2); pointer-events:none; display:flex; align-items:center; gap:5px; }
 .vid-badge svg { width:10px; height:10px; fill:var(--gold); }
 
 /* Play overlay */
-.play-overlay {
-  position:absolute; inset:0; z-index:3;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; transition:opacity .3s;
-  pointer-events:none;
-}
+.play-overlay { position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s; pointer-events:none; }
 .pcard:hover .play-overlay { opacity:1; }
-.play-btn-circle {
-  width:52px; height:52px; border-radius:50%;
-  background:rgba(212,168,67,.15);
-  border:1.5px solid rgba(212,168,67,.6);
-  display:flex; align-items:center; justify-content:center;
-  backdrop-filter:blur(4px);
-  transform:scale(.85); transition:transform .3s;
-}
+.play-btn-circle { width:52px; height:52px; border-radius:50%; background:rgba(212,168,67,.15); border:1.5px solid rgba(212,168,67,.6); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); transform:scale(.85); transition:transform .3s; }
 .pcard:hover .play-btn-circle { transform:scale(1); }
 .play-btn-circle svg { width:20px; height:20px; fill:var(--gold2); margin-left:3px; }
 
@@ -220,14 +184,7 @@ body {
 .pcard:hover { border-color:rgba(212,168,67,.3); box-shadow:0 0 0 1px rgba(212,168,67,.08),0 18px 55px rgba(0,0,0,.65),0 0 35px rgba(212,168,67,.05); z-index:5; }
 .pcard img { width:100%; height:auto; display:block; object-fit:cover; object-position:top center; transition:filter .5s ease, transform .6s cubic-bezier(.25,.46,.45,.94); filter:brightness(.85) saturate(.88) contrast(1.05); }
 .pcard:hover img { filter:brightness(.65) saturate(1.15) contrast(1.1); transform:scale(1.03); }
-
-/* Video thumbnail in card */
-.pcard .vid-thumb {
-  width:100%; height:200px; display:block; object-fit:cover;
-  filter:brightness(.75) saturate(.9) contrast(1.05);
-  transition:filter .5s ease, transform .6s cubic-bezier(.25,.46,.45,.94);
-  background:#0a0610;
-}
+.pcard .vid-thumb { width:100%; height:200px; display:block; object-fit:cover; filter:brightness(.75) saturate(.9) contrast(1.05); transition:filter .5s ease, transform .6s cubic-bezier(.25,.46,.45,.94); background:#0a0610; }
 .pcard:hover .vid-thumb { filter:brightness(.55) saturate(1.1); transform:scale(1.03); }
 
 .cglass { position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(160deg,rgba(212,168,67,.04) 0%,transparent 40%,rgba(0,0,0,.38) 100%); opacity:0; transition:opacity .4s; }
@@ -249,51 +206,17 @@ body {
 @keyframes shima { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
 
 /* ══ VIDEO LIGHTBOX ══ */
-#vidlb {
-  position:fixed; inset:0; z-index:3000; display:none;
-  align-items:center; justify-content:center;
-  background:rgba(0,0,0,.97); backdrop-filter:blur(28px);
-}
+#vidlb { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.97); backdrop-filter:blur(28px); }
 #vidlb.act { display:flex; animation:lbin .4s ease; }
-.vidlb-wrap {
-  position:relative; width:90vw; max-width:900px;
-  animation:lbpop .5s cubic-bezier(.34,1.2,.64,1);
-}
-#vidplayer {
-  width:100%; max-height:80vh;
-  border-radius:4px; outline:none;
-  border:1px solid rgba(212,168,67,.15);
-  box-shadow:0 0 60px rgba(0,0,0,.9), 0 0 0 1px rgba(212,168,67,.08);
-}
-.vidlb-close {
-  position:absolute; top:-48px; right:0;
-  width:38px; height:38px; border-radius:50%;
-  border:1px solid rgba(212,168,67,.25); background:rgba(212,168,67,.05);
-  color:rgba(212,168,67,.6); display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:.9rem; transition:all .3s; z-index:3001;
-}
+.vidlb-wrap { position:relative; width:90vw; max-width:900px; animation:lbpop .5s cubic-bezier(.34,1.2,.64,1); }
+#vidplayer { width:100%; max-height:80vh; border-radius:4px; outline:none; border:1px solid rgba(212,168,67,.15); box-shadow:0 0 60px rgba(0,0,0,.9), 0 0 0 1px rgba(212,168,67,.08); }
+.vidlb-close { position:absolute; top:-48px; right:0; width:38px; height:38px; border-radius:50%; border:1px solid rgba(212,168,67,.25); background:rgba(212,168,67,.05); color:rgba(212,168,67,.6); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.9rem; transition:all .3s; z-index:3001; }
 .vidlb-close:hover { border-color:var(--gold); color:var(--gold); }
-.vidlb-nav {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(212,168,67,.05); border:1px solid rgba(212,168,67,.2);
-  color:rgba(212,168,67,.6); width:46px; height:46px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:1.4rem; transition:all .3s; z-index:3001;
-}
+.vidlb-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(212,168,67,.05); border:1px solid rgba(212,168,67,.2); color:rgba(212,168,67,.6); width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.4rem; transition:all .3s; z-index:3001; }
 .vidlb-nav:hover { background:rgba(212,168,67,.12); border-color:var(--gold); color:var(--gold); }
 #vidprev { left:-58px; } #vidnext { right:-58px; }
-#vidctr {
-  text-align:center; margin-top:14px;
-  font-family:'Cinzel',serif; font-size:.58rem; letter-spacing:.45em;
-  color:rgba(212,168,67,.3);
-}
-.vidlb-title {
-  text-align:center; margin-top:8px;
-  font-style:italic; font-size:.82rem;
-  color:rgba(212,168,67,.4); letter-spacing:.1em;
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  max-width:100%;
-}
+#vidctr { text-align:center; margin-top:14px; font-family:'Cinzel',serif; font-size:.58rem; letter-spacing:.45em; color:rgba(212,168,67,.3); }
+.vidlb-title { text-align:center; margin-top:8px; font-style:italic; font-size:.82rem; color:rgba(212,168,67,.4); letter-spacing:.1em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; }
 
 /* ══ BOTTOM BANNER ══ */
 .botbanner { position:relative; z-index:10; overflow:hidden; padding:60px 40px; border-top:1px solid rgba(212,168,67,.08); display:flex; flex-direction:column; align-items:center; gap:22px; }
@@ -332,123 +255,59 @@ body {
 .lbclose:hover { border-color:var(--gold); color:var(--gold); background:rgba(212,168,67,.1); }
 #lbctr { position:fixed; bottom:88px; left:50%; transform:translateX(-50%); font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.5em; color:rgba(212,168,67,.3); z-index:2002; }
 
-/* ══ DRIVE IMAGE SPINNER ══ */
+/* Drive spinner */
 .drive-spin { width:26px; height:26px; border:1px solid rgba(212,168,67,.15); border-top-color:var(--gold); border-radius:50%; animation:dspin .8s linear infinite; }
 @keyframes dspin { to{transform:rotate(360deg)} }
 
 /* ══ BOTTOM NAV BAR ══ */
-#bottomNav {
-  position:fixed; bottom:0; left:0; right:0; z-index:6000;
-  height:var(--nav-h);
-  background:rgba(5,3,10,.92);
-  backdrop-filter:blur(18px) saturate(.8);
-  border-top:1px solid rgba(212,168,67,.12);
-  display:flex; align-items:center; justify-content:space-around;
-  padding:0 10px;
-}
-.nav-item {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-  cursor:pointer; padding:8px 18px; border-radius:4px;
-  transition:all .25s; background:transparent; border:none;
-  color:rgba(212,168,67,.3); font-family:'Cinzel',serif;
-  font-size:.45rem; letter-spacing:.3em; text-transform:uppercase;
-}
+#bottomNav { position:fixed; bottom:0; left:0; right:0; z-index:6000; height:var(--nav-h); background:rgba(5,3,10,.92); backdrop-filter:blur(18px) saturate(.8); border-top:1px solid rgba(212,168,67,.12); display:flex; align-items:center; justify-content:space-around; padding:0 10px; }
+.nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:8px 18px; border-radius:4px; transition:all .25s; background:transparent; border:none; color:rgba(212,168,67,.3); font-family:'Cinzel',serif; font-size:.45rem; letter-spacing:.3em; text-transform:uppercase; }
 .nav-item svg { width:22px; height:22px; transition:all .25s; }
 .nav-item:hover { color:rgba(212,168,67,.7); }
 .nav-item.active { color:var(--gold); }
 .nav-item.active svg { filter:drop-shadow(0 0 6px rgba(212,168,67,.5)); }
-.nav-upload-btn {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-  cursor:pointer; padding:6px 22px; border-radius:4px;
-  transition:all .3s; border:1px solid rgba(212,168,67,.3);
-  background:rgba(212,168,67,.05); color:var(--gold);
-  font-family:'Cinzel',serif; font-size:.45rem; letter-spacing:.3em;
-  text-transform:uppercase; position:relative;
-}
-.nav-upload-btn::before {
-  content:''; position:absolute; inset:-1px; border-radius:4px;
-  background:linear-gradient(135deg,rgba(212,168,67,.1),transparent,rgba(196,96,122,.08));
-  pointer-events:none;
-}
+.nav-upload-btn { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; padding:6px 22px; border-radius:4px; transition:all .3s; border:1px solid rgba(212,168,67,.3); background:rgba(212,168,67,.05); color:var(--gold); font-family:'Cinzel',serif; font-size:.45rem; letter-spacing:.3em; text-transform:uppercase; position:relative; }
+.nav-upload-btn::before { content:''; position:absolute; inset:-1px; border-radius:4px; background:linear-gradient(135deg,rgba(212,168,67,.1),transparent,rgba(196,96,122,.08)); pointer-events:none; }
 .nav-upload-btn:hover { border-color:var(--gold); background:rgba(212,168,67,.1); box-shadow:0 0 20px rgba(212,168,67,.12); }
 .nav-upload-btn svg { width:22px; height:22px; }
 
 /* ══ UPLOAD PANEL ══ */
-#uploadPanel {
-  position:fixed; left:0; right:0; bottom:var(--nav-h); z-index:5500;
-  transform:translateY(100%);
-  transition:transform .45s cubic-bezier(.16,1,.3,1);
-  background:rgba(8,5,15,.97);
-  border-top:1px solid rgba(212,168,67,.15);
-  border-radius:16px 16px 0 0;
-  padding:28px 28px 24px;
-  max-height:75vh; overflow-y:auto;
-  backdrop-filter:blur(30px);
-}
+#uploadPanel { position:fixed; left:0; right:0; bottom:var(--nav-h); z-index:5500; transform:translateY(100%); transition:transform .45s cubic-bezier(.16,1,.3,1); background:rgba(8,5,15,.97); border-top:1px solid rgba(212,168,67,.15); border-radius:16px 16px 0 0; padding:28px 28px 24px; max-height:80vh; overflow-y:auto; backdrop-filter:blur(30px); }
 #uploadPanel.open { transform:translateY(0); }
-.up-handle {
-  width:40px; height:3px; background:rgba(212,168,67,.2); border-radius:2px;
-  margin:0 auto 22px; cursor:pointer;
-}
-.up-title {
-  font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.55em;
-  color:rgba(212,168,67,.5); text-transform:uppercase;
-  display:flex; align-items:center; gap:10px; margin-bottom:20px;
-}
+.up-handle { width:40px; height:3px; background:rgba(212,168,67,.2); border-radius:2px; margin:0 auto 22px; cursor:pointer; }
+.up-title { font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.55em; color:rgba(212,168,67,.5); text-transform:uppercase; display:flex; align-items:center; gap:10px; margin-bottom:20px; }
 .up-title::before, .up-title::after { content:''; flex:1; height:1px; background:rgba(212,168,67,.1); }
-.up-auth-strip {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 14px; border:1px solid rgba(212,168,67,.1);
-  border-radius:4px; margin-bottom:18px;
-  background:rgba(212,168,67,.02);
-}
+.up-auth-strip { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border:1px solid rgba(212,168,67,.1); border-radius:4px; margin-bottom:18px; background:rgba(212,168,67,.02); }
 .up-auth-label { font-family:'Cinzel',serif; font-size:.5rem; letter-spacing:.3em; color:rgba(212,168,67,.3); text-transform:uppercase; }
 .up-auth-status { font-style:italic; font-size:.82rem; color:var(--muted); }
-.up-auth-btn {
-  font-family:'Cinzel',serif; font-size:.48rem; letter-spacing:.35em;
-  text-transform:uppercase; padding:7px 16px;
-  border:1px solid rgba(212,168,67,.25); background:transparent;
-  color:rgba(212,168,67,.6); cursor:pointer; transition:all .3s; border-radius:2px;
-}
+.up-auth-btn { font-family:'Cinzel',serif; font-size:.48rem; letter-spacing:.35em; text-transform:uppercase; padding:7px 16px; border:1px solid rgba(212,168,67,.25); background:transparent; color:rgba(212,168,67,.6); cursor:pointer; transition:all .3s; border-radius:2px; }
 .up-auth-btn:hover { border-color:var(--gold); color:var(--gold); }
 .up-auth-btn.logout { border-color:rgba(196,96,122,.3); color:rgba(196,96,122,.6); }
 .up-auth-btn.logout:hover { border-color:var(--rose); color:var(--rose); }
-.up-dropzone {
-  border:1px dashed rgba(212,168,67,.18); border-radius:6px;
-  padding:32px 20px; text-align:center; cursor:pointer;
-  transition:all .3s; position:relative; background:rgba(212,168,67,.015);
-  margin-bottom:16px;
-}
+
+/* Folder ID input */
+.up-folder-strip { display:flex; align-items:center; gap:12px; padding:10px 14px; border:1px solid rgba(212,168,67,.1); border-radius:4px; margin-bottom:18px; background:rgba(212,168,67,.02); }
+.up-folder-strip label { font-family:'Cinzel',serif; font-size:.48rem; letter-spacing:.3em; color:rgba(212,168,67,.3); text-transform:uppercase; white-space:nowrap; }
+#folderIdInput { flex:1; background:transparent; border:none; border-bottom:1px solid rgba(212,168,67,.2); color:var(--white); font-family:'EB Garamond',serif; font-size:.85rem; letter-spacing:.05em; padding:4px 2px; outline:none; caret-color:var(--gold); min-width:0; }
+#folderIdInput:focus { border-bottom-color:rgba(212,168,67,.6); }
+#folderIdInput::placeholder { color:rgba(240,232,224,.15); font-size:.8rem; }
+.up-folder-hint { font-family:'Cinzel',serif; font-size:.45rem; letter-spacing:.25em; color:rgba(212,168,67,.2); text-transform:uppercase; text-align:center; margin-bottom:10px; }
+
+.up-dropzone { border:1px dashed rgba(212,168,67,.18); border-radius:6px; padding:32px 20px; text-align:center; cursor:pointer; transition:all .3s; position:relative; background:rgba(212,168,67,.015); margin-bottom:16px; }
 .up-dropzone:hover, .up-dropzone.dragover { border-color:rgba(212,168,67,.45); background:rgba(212,168,67,.04); }
 .up-dropzone input { position:absolute; inset:0; opacity:0; cursor:pointer; }
 .up-drop-icon { font-size:2rem; margin-bottom:10px; opacity:.5; }
 .up-drop-text { font-family:'Cinzel',serif; font-size:.55rem; letter-spacing:.4em; color:rgba(212,168,67,.35); text-transform:uppercase; line-height:2; }
 .up-drop-text span { color:var(--gold); }
 
-/* Duplicate warning */
-.dup-warning {
-  background:rgba(196,96,122,.08); border:1px solid rgba(196,96,122,.25);
-  border-radius:4px; padding:10px 14px; margin-bottom:12px;
-  font-style:italic; font-size:.82rem; color:rgba(232,160,180,.8);
-  display:none;
-}
+.dup-warning { background:rgba(196,96,122,.08); border:1px solid rgba(196,96,122,.25); border-radius:4px; padding:10px 14px; margin-bottom:12px; font-style:italic; font-size:.82rem; color:rgba(232,160,180,.8); display:none; }
 .dup-warning.show { display:block; }
-
-#upSelectedFiles {
-  font-style:italic; font-size:.85rem; color:rgba(212,168,67,.5);
-  text-align:center; margin-bottom:12px; min-height:20px;
-}
+#upSelectedFiles { font-style:italic; font-size:.85rem; color:rgba(212,168,67,.5); text-align:center; margin-bottom:12px; min-height:20px; }
 .up-prog-wrap { margin-bottom:12px; }
 .up-prog-outer { height:1px; background:rgba(212,168,67,.08); position:relative; overflow:hidden; }
 .up-prog-inner { position:absolute; top:0; left:0; height:100%; background:linear-gradient(90deg,var(--gold3),var(--gold)); width:0%; transition:width .3s; box-shadow:0 0 6px rgba(212,168,67,.4); }
 #upStatusText { font-family:'Cinzel',serif; font-size:.5rem; letter-spacing:.35em; color:rgba(212,168,67,.25); text-transform:uppercase; text-align:center; margin-top:6px; }
-.up-action-btn {
-  width:100%; padding:14px; background:transparent;
-  border:1px solid rgba(212,168,67,.3); color:rgba(212,168,67,.7);
-  font-family:'Cinzel',serif; font-size:.58rem; letter-spacing:.5em;
-  text-transform:uppercase; cursor:pointer; transition:all .35s;
-  position:relative; overflow:hidden; border-radius:3px;
-}
+.up-action-btn { width:100%; padding:14px; background:transparent; border:1px solid rgba(212,168,67,.3); color:rgba(212,168,67,.7); font-family:'Cinzel',serif; font-size:.58rem; letter-spacing:.5em; text-transform:uppercase; cursor:pointer; transition:all .35s; position:relative; overflow:hidden; border-radius:3px; }
 .up-action-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(212,168,67,.06),transparent); transform:translateX(-100%); transition:transform .5s; }
 .up-action-btn:hover { border-color:var(--gold); color:var(--gold); }
 .up-action-btn:hover::before { transform:translateX(100%); }
@@ -457,11 +316,7 @@ body {
 .msg-toast { font-style:italic; font-size:.85rem; letter-spacing:.1em; padding:6px 14px; border-radius:3px; display:inline-block; }
 .msg-toast.success { color:#86efac; }
 .msg-toast.error { color:var(--rose2); }
-#panelOverlay {
-  position:fixed; inset:0; z-index:5400; background:rgba(0,0,0,.5);
-  opacity:0; pointer-events:none; transition:opacity .35s;
-  backdrop-filter:blur(2px);
-}
+#panelOverlay { position:fixed; inset:0; z-index:5400; background:rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .35s; backdrop-filter:blur(2px); }
 #panelOverlay.show { opacity:1; pointer-events:all; }
 
 @media(max-width:700px){
@@ -472,6 +327,7 @@ body {
   #uploadPanel { padding:24px 18px 20px; }
   #vidprev { left:-8px; } #vidnext { right:-8px; }
   .vidlb-wrap { width:95vw; }
+  .up-folder-strip { flex-direction:column; align-items:flex-start; gap:8px; }
 }
 </style>
 </head>
@@ -562,20 +418,20 @@ body {
     <button class="stab" data-tab="uploaded" onclick="filterTab('uploaded')">Uploaded</button>
   </div>
 
-  <!-- Photos Section -->
+  <!-- ── PHOTOS SECTION ── -->
   <div id="photoSection">
     <div class="media-section-header">
-      <div class="ms-label"><span class="ms-icon">🖼</span> Photographs</div>
+      <div class="ms-label"><span class="ms-icon">🖼</span>&nbsp; Photographs</div>
       <div class="ms-line"></div>
       <div class="ms-count" id="imgCountLabel">0 photos</div>
     </div>
     <div class="ggrid" id="imgGrid"></div>
   </div>
 
-  <!-- Videos Section -->
+  <!-- ── VIDEOS SECTION ── -->
   <div id="videoSection" style="display:none;">
     <div class="media-section-header">
-      <div class="ms-label"><span class="ms-icon">▶</span> Videos</div>
+      <div class="ms-label"><span class="ms-icon">▶</span>&nbsp; Videos</div>
       <div class="ms-line"></div>
       <div class="ms-count" id="vidCountLabel">0 videos</div>
     </div>
@@ -635,6 +491,7 @@ body {
   <div class="up-handle" onclick="closeUploadPanel()"></div>
   <div class="up-title">Upload Photos &amp; Videos</div>
 
+  <!-- Google Auth -->
   <div class="up-auth-strip">
     <div>
       <div class="up-auth-label">Google Drive</div>
@@ -642,6 +499,13 @@ body {
     </div>
     <button class="up-auth-btn" id="upAuthBtn" onclick="handleAuthClick()">Connect</button>
   </div>
+
+  <!-- Folder ID input -->
+  <div class="up-folder-strip">
+    <label for="folderIdInput">Folder ID</label>
+    <input type="text" id="folderIdInput" placeholder="Paste your Google Drive folder ID here…" spellcheck="false">
+  </div>
+  <div class="up-folder-hint">✦ &nbsp; Folder ID maa upload + gallery dekhine &nbsp; ✦</div>
 
   <div class="up-dropzone" id="upDropzone">
     <input type="file" id="upFileInput" multiple accept="image/*,video/*">
@@ -660,7 +524,7 @@ body {
     <div id="upStatusText">— ready —</div>
   </div>
 
-  <button class="up-action-btn" id="upBtn" onclick="doUpload()">✦ &nbsp; Upload to Drive &nbsp; ✦</button>
+  <button class="up-action-btn" id="upBtn" onclick="doUpload()">✦ &nbsp; Upload to Drive &amp; Show in Gallery &nbsp; ✦</button>
   <div id="upMessage"></div>
 </div>
 
@@ -702,13 +566,13 @@ const PASSWORD = 'Angel';
 
 /* Google Drive */
 const CLIENT_ID = "861225298693-lap45j23pb4a3igc41g252vrqerfiurn.apps.googleusercontent.com";
-const SCOPES    = "https://www.googleapis.com/auth/drive.file";
+const SCOPES    = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly";
 let tokenClient, accessToken = null;
 
 /* State */
 let githubImgs = [], githubVids = [];
 let driveImgs  = [], driveVids  = [];
-let allImgs    = [], allVids    = [];  // currently displayed
+let allImgs    = [], allVids    = [];
 let lbIdx = 0, vidIdx = 0;
 let currentTab = 'all';
 
@@ -726,7 +590,17 @@ window.onload = () => {
       }
     }
   });
+  // Restore saved folder ID
+  const saved = localStorage.getItem('angel_folder_id');
+  if(saved) document.getElementById('folderIdInput').value = saved;
 };
+
+/* ════ FOLDER ID ════ */
+function getFolderId(){
+  const val = document.getElementById('folderIdInput').value.trim();
+  if(val) localStorage.setItem('angel_folder_id', val);
+  return val || null;
+}
 
 /* ════ PROFILE PHOTO ════ */
 async function loadProfilePhoto(){
@@ -794,24 +668,16 @@ document.getElementById('pwbtn').addEventListener('click',tryPassword);
 pwinput.addEventListener('keydown',e=>{ if(e.key==='Enter') tryPassword(); });
 setTimeout(()=>pwinput.focus(),600);
 
-/* ════ BOTTOM NAV ════ */
+/* ════ NAV ════ */
 function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
 function scrollToBottom(){ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); }
 
 /* ════ UPLOAD PANEL ════ */
 const uploadPanel  = document.getElementById('uploadPanel');
 const panelOverlay = document.getElementById('panelOverlay');
-function toggleUploadPanel(){
-  uploadPanel.classList.contains('open') ? closeUploadPanel() : openUploadPanel();
-}
-function openUploadPanel(){
-  uploadPanel.classList.add('open');
-  panelOverlay.classList.add('show');
-}
-function closeUploadPanel(){
-  uploadPanel.classList.remove('open');
-  panelOverlay.classList.remove('show');
-}
+function toggleUploadPanel(){ uploadPanel.classList.contains('open') ? closeUploadPanel() : openUploadPanel(); }
+function openUploadPanel(){ uploadPanel.classList.add('open'); panelOverlay.classList.add('show'); }
+function closeUploadPanel(){ uploadPanel.classList.remove('open'); panelOverlay.classList.remove('show'); }
 
 /* ════ AUTH UI ════ */
 function updateAuthUI(connected){
@@ -846,31 +712,21 @@ const upDropzone  = document.getElementById('upDropzone');
 const upSelected  = document.getElementById('upSelectedFiles');
 const dupWarning  = document.getElementById('dupWarning');
 
-// Get all existing filenames from drive
 function getExistingNames(){
   const names = new Set();
   [...driveImgs, ...driveVids].forEach(f => { if(f.name) names.add(f.name.toLowerCase()); });
   return names;
 }
 
-// Keep only first file if same name selected multiple times, also filter drive duplicates
 function deduplicateFiles(fileList){
   const seen = new Set();
   const existing = getExistingNames();
-  const accepted = [];
-  const dupLocal = [];
-  const dupDrive = [];
-
+  const accepted = [], dupLocal = [], dupDrive = [];
   for(const f of fileList){
     const key = f.name.toLowerCase();
-    if(seen.has(key)){
-      dupLocal.push(f.name);
-    } else if(existing.has(key)){
-      dupDrive.push(f.name);
-    } else {
-      seen.add(key);
-      accepted.push(f);
-    }
+    if(seen.has(key)) dupLocal.push(f.name);
+    else if(existing.has(key)) dupDrive.push(f.name);
+    else { seen.add(key); accepted.push(f); }
   }
   return { accepted, dupLocal, dupDrive };
 }
@@ -886,23 +742,16 @@ upDropzone.addEventListener('drop', e=>{
 });
 
 function checkFiles(fileList){
-  if(!fileList || fileList.length === 0){
-    filesToUpload = []; upSelected.innerHTML = ''; dupWarning.classList.remove('show');
-    return;
-  }
+  if(!fileList || fileList.length === 0){ filesToUpload=[]; upSelected.innerHTML=''; dupWarning.classList.remove('show'); return; }
   const { accepted, dupLocal, dupDrive } = deduplicateFiles(fileList);
   filesToUpload = accepted;
-
-  // Show warning
   let warnMsg = '';
   if(dupDrive.length > 0) warnMsg += `Already in Drive (skipped): ${dupDrive.join(', ')}. `;
   if(dupLocal.length > 0) warnMsg += `Duplicate selection (skipped): ${dupLocal.join(', ')}.`;
   if(warnMsg){ dupWarning.textContent = '⚠ ' + warnMsg; dupWarning.classList.add('show'); }
   else { dupWarning.classList.remove('show'); }
-
   if(accepted.length > 0){
-    let total = 0;
-    accepted.forEach(f => total += f.size);
+    let total = 0; accepted.forEach(f => total += f.size);
     upSelected.innerHTML = `✦ <strong>${accepted.length}</strong> file${accepted.length>1?'s':''} ready · <strong>${formatBytes(total)}</strong>`;
   } else {
     upSelected.innerHTML = '<em style="color:rgba(196,96,122,.6)">All files are duplicates — nothing to upload</em>';
@@ -916,44 +765,67 @@ function formatBytes(b){
   return Math.round((b/Math.pow(k,i))*100)/100+' '+s[i];
 }
 
-/* ════ UPLOAD ════ */
+/* ════ UPLOAD — with folder support ════ */
 async function doUpload(){
   if(!accessToken){ upMsg('Please connect Google Drive first ✦', 'error'); return; }
   if(!filesToUpload.length){ upMsg('Please select files to upload ✦', 'error'); return; }
 
+  const folderId = getFolderId();
   const btn  = document.getElementById('upBtn');
   const prog = document.getElementById('upProgBar');
   const stxt = document.getElementById('upStatusText');
-  btn.disabled = true;
-  btn.textContent = '— uploading —';
+  btn.disabled = true; btn.textContent = '— uploading —';
 
   let done = 0;
+  const uploadedMedia = []; // track what we just uploaded
+
   for(const file of filesToUpload){
     stxt.textContent = `— uploading ${file.name} —`;
+
+    // Build metadata — add to folder if ID provided
     const meta = { name: file.name, mimeType: file.type };
+    if(folderId) meta.parents = [folderId];
+
     const form = new FormData();
     form.append('metadata', new Blob([JSON.stringify(meta)],{type:'application/json'}));
     form.append('file', file);
+
     try {
-      const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType', {
-        method:'POST',
-        headers:{ Authorization:'Bearer '+accessToken },
-        body:form
-      });
-      if(r.ok) done++;
-    } catch(e){}
+      const r = await fetch(
+        'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType',
+        { method:'POST', headers:{ Authorization:'Bearer '+accessToken }, body:form }
+      );
+      if(r.ok){
+        const data = await r.json();
+        done++;
+        // Create blob URL for immediate display
+        const blobUrl = URL.createObjectURL(file);
+        uploadedMedia.push({ id:data.id, name:data.name, mimeType:data.mimeType, url:blobUrl, src:'drive', loading:false });
+      }
+    } catch(e){ console.warn('Upload error:', e); }
+
     prog.style.width = ((done/filesToUpload.length)*100)+'%';
   }
 
   upMsg(`${done} of ${filesToUpload.length} file${filesToUpload.length>1?'s':''} uploaded ✦`, 'success');
   stxt.textContent = `— ${done} uploaded —`;
+
+  // Immediately add to driveImgs/driveVids and re-render
+  for(const m of uploadedMedia){
+    if(IMG_EXT.test(m.name) || (m.mimeType && m.mimeType.startsWith('image/'))){
+      driveImgs.unshift(m); // add at top
+    } else if(VID_EXT.test(m.name) || (m.mimeType && m.mimeType.startsWith('video/'))){
+      driveVids.unshift(m);
+    }
+  }
+  renderAll();
+
   upFileInput.value = '';
   filesToUpload = [];
   upSelected.innerHTML = '';
   dupWarning.classList.remove('show');
   btn.disabled = false;
-  btn.textContent = '✦  Upload to Drive  ✦';
-  if(done > 0) { await loadDriveMedia(); }
+  btn.textContent = '✦  Upload to Drive & Show in Gallery  ✦';
 }
 
 function upMsg(txt, type){
@@ -962,9 +834,9 @@ function upMsg(txt, type){
   setTimeout(()=>{ el.innerHTML=''; }, 5000);
 }
 
-/* ════ GALLERY / RENDER ════ */
+/* ════ GALLERY RENDER ════ */
 const obs = new IntersectionObserver(ents=>{
-  ents.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);} });
+  ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); } });
 },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 
 function buildImgCard(img, i){
@@ -981,16 +853,12 @@ function buildImgCard(img, i){
 
   const image = document.createElement('img');
   image.src = img.url; image.alt=''; image.loading='lazy';
-
   const glass = document.createElement('div'); glass.className='cglass';
   ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
-
   const badge = document.createElement('div');
   badge.className = `src-badge ${img.src}`;
   badge.textContent = img.src === 'drive' ? 'Drive' : 'Collection';
-
   const num = document.createElement('div'); num.className='cnum'; num.textContent=String(i+1).padStart(2,'0');
-
   card.appendChild(image); card.appendChild(glass); card.appendChild(badge); card.appendChild(num);
   card.addEventListener('click', ()=> openLb(allImgs.indexOf(img)));
   image.onerror = ()=>{ card.style.display='none'; };
@@ -1010,39 +878,28 @@ function buildVidCard(vid, i){
     obs.observe(card); return card;
   }
 
-  // Video thumbnail using video element poster or first frame
   const vidEl = document.createElement('video');
   vidEl.src = vid.url;
   vidEl.className = 'vid-thumb';
   vidEl.preload = 'metadata';
   vidEl.muted = true;
   vidEl.playsInline = true;
-  // Seek to first frame for thumbnail
   vidEl.addEventListener('loadedmetadata', ()=>{ vidEl.currentTime = 1; });
 
   const glass = document.createElement('div'); glass.className='cglass';
   ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
 
-  // Play overlay
-  const playOverlay = document.createElement('div');
-  playOverlay.className = 'play-overlay';
-  playOverlay.innerHTML = `<div class="play-btn-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
-
-  // Video badge
-  const vidBadge = document.createElement('div');
-  vidBadge.className = 'vid-badge';
-  vidBadge.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> VIDEO`;
-
-  const srcBadge = document.createElement('div');
-  srcBadge.className = `src-badge ${vid.src}`;
+  const playOverlay = document.createElement('div'); playOverlay.className='play-overlay';
+  playOverlay.innerHTML=`<div class="play-btn-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
+  const vidBadge = document.createElement('div'); vidBadge.className='vid-badge';
+  vidBadge.innerHTML=`<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> VIDEO`;
+  const srcBadge = document.createElement('div'); srcBadge.className=`src-badge ${vid.src}`;
   srcBadge.textContent = vid.src === 'drive' ? 'Drive' : 'Collection';
-
   const num = document.createElement('div'); num.className='cnum'; num.textContent=String(i+1).padStart(2,'0');
 
   card.appendChild(vidEl); card.appendChild(glass);
   card.appendChild(playOverlay); card.appendChild(vidBadge);
   card.appendChild(srcBadge); card.appendChild(num);
-
   card.addEventListener('click', ()=> openVidLb(allVids.indexOf(vid)));
   obs.observe(card);
   return card;
@@ -1054,10 +911,9 @@ function renderAll(){
   imgGrid.innerHTML = ''; vidGrid.innerHTML = '';
 
   let imgs = [], vids = [];
-
   if(currentTab === 'all'){
-    imgs = [...githubImgs.map(p=>({...p,src:'github'})), ...driveImgs.map(p=>({...p,src:'drive'}))];
-    vids = [...githubVids.map(p=>({...p,src:'github'})), ...driveVids.map(p=>({...p,src:'drive'}))];
+    imgs = [...driveImgs.map(p=>({...p,src:'drive'})), ...githubImgs.map(p=>({...p,src:'github'}))];
+    vids = [...driveVids.map(p=>({...p,src:'drive'})), ...githubVids.map(p=>({...p,src:'github'}))];
   } else if(currentTab === 'collection'){
     imgs = githubImgs.map(p=>({...p,src:'github'}));
     vids = githubVids.map(p=>({...p,src:'github'}));
@@ -1074,21 +930,18 @@ function renderAll(){
   document.getElementById('imgCountLabel').textContent = `${imgs.length} photo${imgs.length!==1?'s':''}`;
   document.getElementById('vidCountLabel').textContent = `${vids.length} video${vids.length!==1?'s':''}`;
 
-  // Photos
   if(imgs.length === 0){
     imgGrid.innerHTML = `<p style="text-align:center;color:rgba(212,168,67,.2);padding:30px 20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.4em;">— no photographs —</p>`;
   } else {
     imgs.forEach((img,i)=> imgGrid.appendChild(buildImgCard(img,i)));
   }
 
-  // Videos
   document.getElementById('videoSection').style.display = vids.length > 0 ? 'block' : 'none';
   if(vids.length > 0){
     vids.forEach((vid,i)=> vidGrid.appendChild(buildVidCard(vid,i)));
   }
 }
 
-/* Tab filter */
 function filterTab(tab){
   currentTab = tab;
   document.querySelectorAll('.stab').forEach(t=>{ t.classList.toggle('active', t.dataset.tab===tab); });
@@ -1166,83 +1019,77 @@ async function initGithub(){
 }
 
 /* ════ LOAD GOOGLE DRIVE MEDIA ════ */
-const driveBlobCache = {};
-
-async function fetchDriveBlob(fileId){
-  if(driveBlobCache[fileId]) return driveBlobCache[fileId];
+// For Drive files we stream via blob URL using access token
+async function fetchDriveFile(fileId){
   try {
     const r = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
       headers:{ Authorization:'Bearer '+accessToken }
     });
     if(!r.ok) return null;
     const blob = await r.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    driveBlobCache[fileId] = blobUrl;
-    return blobUrl;
+    return URL.createObjectURL(blob);
   } catch(e){ return null; }
+}
+
+// Build Drive streaming URL (works for video playback)
+function driveStreamUrl(fileId){
+  // Use direct download with token as query param (for video src)
+  return `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&access_token=${accessToken}`;
 }
 
 async function loadDriveMedia(){
   if(!accessToken) return;
+  const folderId = getFolderId();
+
   driveImgs = []; driveVids = [];
 
-  try {
-    // Fetch images
-    const imgRes = await fetch(
-      "https://www.googleapis.com/drive/v3/files" +
-      "?fields=files(id,name,mimeType)" +
-      "&q=trashed%3Dfalse+and+mimeType+contains+'image/'" +
-      "&orderBy=createdTime+desc&pageSize=100",
-      { headers:{ Authorization:'Bearer '+accessToken } }
-    );
-    const imgData = await imgRes.json();
+  // Build query — if folder specified, filter by it
+  let imgQ = "trashed=false and mimeType contains 'image/'";
+  let vidQ = "trashed=false and mimeType contains 'video/'";
+  if(folderId){
+    imgQ = `'${folderId}' in parents and trashed=false and mimeType contains 'image/'`;
+    vidQ = `'${folderId}' in parents and trashed=false and mimeType contains 'video/'`;
+  }
 
-    // Fetch videos
-    const vidRes = await fetch(
-      "https://www.googleapis.com/drive/v3/files" +
-      "?fields=files(id,name,mimeType)" +
-      "&q=trashed%3Dfalse+and+mimeType+contains+'video/'" +
-      "&orderBy=createdTime+desc&pageSize=100",
-      { headers:{ Authorization:'Bearer '+accessToken } }
-    );
+  try {
+    const [imgRes, vidRes] = await Promise.all([
+      fetch(`https://www.googleapis.com/drive/v3/files?fields=files(id,name,mimeType)&q=${encodeURIComponent(imgQ)}&orderBy=createdTime+desc&pageSize=100`, { headers:{ Authorization:'Bearer '+accessToken } }),
+      fetch(`https://www.googleapis.com/drive/v3/files?fields=files(id,name,mimeType)&q=${encodeURIComponent(vidQ)}&orderBy=createdTime+desc&pageSize=100`, { headers:{ Authorization:'Bearer '+accessToken } })
+    ]);
+
+    const imgData = await imgRes.json();
     const vidData = await vidRes.json();
 
-    // Deduplicate by name within drive results
     const imgFiles = deduplicateDriveFiles(imgData.files || []);
     const vidFiles = deduplicateDriveFiles(vidData.files || []);
 
-    // Build placeholders
-    imgFiles.forEach(f => driveImgs.push({ name:f.name, url:null, id:f.id, mimeType:f.mimeType, loading:true }));
-    vidFiles.forEach(f => driveVids.push({ name:f.name, url:null, id:f.id, mimeType:f.mimeType, loading:true }));
+    // For images: fetch blob for proper display
+    // For videos: use streaming URL (avoids loading entire file into memory)
+    imgFiles.forEach(f => driveImgs.push({ name:f.name, url:null, id:f.id, mimeType:f.mimeType, src:'drive', loading:true }));
+    vidFiles.forEach(f => {
+      // Videos get streaming URL immediately — no need to blob the whole file
+      const streamUrl = driveStreamUrl(f.id);
+      driveVids.push({ name:f.name, url:streamUrl, id:f.id, mimeType:f.mimeType, src:'drive', loading:false });
+    });
+
     renderAll();
 
-    // Load images
+    // Load image blobs progressively
     for(let i=0; i<imgFiles.length; i++){
-      const blobUrl = await fetchDriveBlob(imgFiles[i].id);
+      const blobUrl = await fetchDriveFile(imgFiles[i].id);
       if(blobUrl){
-        driveImgs[i].url = blobUrl; driveImgs[i].loading = false;
+        driveImgs[i].url = blobUrl;
+        driveImgs[i].loading = false;
         const ai = allImgs.find(p => p.id === imgFiles[i].id);
         if(ai){ ai.url = blobUrl; ai.loading = false; }
-        // Update card in DOM
-        updateDriveCard('imgGrid', i, blobUrl, 'img');
-      }
-    }
-
-    // Load videos
-    for(let i=0; i<vidFiles.length; i++){
-      const blobUrl = await fetchDriveBlob(vidFiles[i].id);
-      if(blobUrl){
-        driveVids[i].url = blobUrl; driveVids[i].loading = false;
-        const av = allVids.find(p => p.id === vidFiles[i].id);
-        if(av){ av.url = blobUrl; av.loading = false; }
-        updateDriveCard('vidGrid', i, blobUrl, 'vid');
+        // Update the card in DOM
+        refreshImgCard(imgFiles[i].id, blobUrl, i);
       }
     }
 
   } catch(e){ console.warn('Drive load error:', e); }
 }
 
-// Remove duplicate filenames from drive results, keep first
 function deduplicateDriveFiles(files){
   const seen = new Set();
   return files.filter(f => {
@@ -1252,54 +1099,20 @@ function deduplicateDriveFiles(files){
   });
 }
 
-function updateDriveCard(gridId, idx, blobUrl, type){
-  const grid = document.getElementById(gridId);
-  const driveCards = grid.querySelectorAll('.pcard[data-source="drive"]');
-  if(!driveCards[idx]) return;
-  const card = driveCards[idx];
+function refreshImgCard(driveId, blobUrl, driveIdx){
+  const grid = document.getElementById('imgGrid');
+  const card = grid.querySelector(`.pcard[data-drive-id="${driveId}"]`);
+  if(!card) return;
   card.innerHTML = '';
-
-  if(type === 'img'){
-    const image = document.createElement('img');
-    image.src = blobUrl; image.alt=''; image.loading='lazy';
-
-    const glass = document.createElement('div'); glass.className='cglass';
-    ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
-
-    const badge = document.createElement('div');
-    badge.className='src-badge drive'; badge.textContent='Drive';
-
-    const num = document.createElement('div'); num.className='cnum'; num.textContent=String(idx+1).padStart(2,'0');
-
-    card.appendChild(image); card.appendChild(glass); card.appendChild(badge); card.appendChild(num);
-    const imgObj = driveImgs[idx];
-    card.addEventListener('click', ()=> openLb(allImgs.indexOf(imgObj)));
-
-  } else {
-    const vidEl = document.createElement('video');
-    vidEl.src = blobUrl; vidEl.className='vid-thumb';
-    vidEl.preload='metadata'; vidEl.muted=true; vidEl.playsInline=true;
-    vidEl.addEventListener('loadedmetadata', ()=>{ vidEl.currentTime = 1; });
-
-    const glass = document.createElement('div'); glass.className='cglass';
-    ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
-
-    const playOverlay = document.createElement('div'); playOverlay.className='play-overlay';
-    playOverlay.innerHTML=`<div class="play-btn-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
-
-    const vidBadge = document.createElement('div'); vidBadge.className='vid-badge';
-    vidBadge.innerHTML=`<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> VIDEO`;
-
-    const srcBadge = document.createElement('div'); srcBadge.className='src-badge drive'; srcBadge.textContent='Drive';
-    const num = document.createElement('div'); num.className='cnum'; num.textContent=String(idx+1).padStart(2,'0');
-
-    card.appendChild(vidEl); card.appendChild(glass);
-    card.appendChild(playOverlay); card.appendChild(vidBadge);
-    card.appendChild(srcBadge); card.appendChild(num);
-
-    const vidObj = driveVids[idx];
-    card.addEventListener('click', ()=> openVidLb(allVids.indexOf(vidObj)));
-  }
+  const image = document.createElement('img');
+  image.src = blobUrl; image.alt=''; image.loading='lazy';
+  const glass = document.createElement('div'); glass.className='cglass';
+  ['tl','tr','bl','br'].forEach(p=>{ const b=document.createElement('div'); b.className=`cbr ${p}`; card.appendChild(b); });
+  const badge = document.createElement('div'); badge.className='src-badge drive'; badge.textContent='Drive';
+  const num = document.createElement('div'); num.className='cnum'; num.textContent=String(driveIdx+1).padStart(2,'0');
+  card.appendChild(image); card.appendChild(glass); card.appendChild(badge); card.appendChild(num);
+  const imgObj = driveImgs[driveIdx];
+  card.addEventListener('click', ()=> openLb(allImgs.indexOf(imgObj)));
   card.classList.add('vis');
 }
 
@@ -1329,14 +1142,11 @@ const vidctr    = document.getElementById('vidctr');
 const vidTitle  = document.getElementById('vidTitle');
 
 function openVidLb(i){
-  vidIdx = i;
-  showVid();
-  vidlb.classList.add('act');
+  vidIdx = i; showVid(); vidlb.classList.add('act');
 }
 function closeVidLb(){
   vidlb.classList.remove('act');
-  vidplayer.pause();
-  vidplayer.src = '';
+  vidplayer.pause(); vidplayer.src = '';
 }
 function showVid(){
   const v = allVids[vidIdx];
@@ -1354,7 +1164,7 @@ document.getElementById('vidprev').onclick = e=>{ e.stopPropagation(); prevVid()
 document.getElementById('vidnext').onclick = e=>{ e.stopPropagation(); nextVid(); };
 vidlb.addEventListener('click', e=>{ if(e.target===vidlb) closeVidLb(); });
 
-/* ════ KEYBOARD NAV ════ */
+/* ════ KEYBOARD ════ */
 document.addEventListener('keydown',e=>{
   if(lb.classList.contains('act')){
     if(e.key==='Escape') closeLb();
