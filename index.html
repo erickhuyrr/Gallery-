@@ -1031,19 +1031,12 @@ async function fetchDriveFile(fileId){
   } catch(e){ return null; }
 }
 
-// Build Drive streaming URL (works for video playback)
-function driveStreamUrl(fileId){
-  // Use direct download with token as query param (for video src)
-  return `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&access_token=${accessToken}`;
-}
-
 async function loadDriveMedia(){
   if(!accessToken) return;
   const folderId = getFolderId();
 
   driveImgs = []; driveVids = [];
 
-  // Build query — if folder specified, filter by it
   let imgQ = "trashed=false and mimeType contains 'image/'";
   let vidQ = "trashed=false and mimeType contains 'video/'";
   if(folderId){
@@ -1063,18 +1056,12 @@ async function loadDriveMedia(){
     const imgFiles = deduplicateDriveFiles(imgData.files || []);
     const vidFiles = deduplicateDriveFiles(vidData.files || []);
 
-    // For images: fetch blob for proper display
-    // For videos: use streaming URL (avoids loading entire file into memory)
+    // Placeholders for both
     imgFiles.forEach(f => driveImgs.push({ name:f.name, url:null, id:f.id, mimeType:f.mimeType, src:'drive', loading:true }));
-    vidFiles.forEach(f => {
-      // Videos get streaming URL immediately — no need to blob the whole file
-      const streamUrl = driveStreamUrl(f.id);
-      driveVids.push({ name:f.name, url:streamUrl, id:f.id, mimeType:f.mimeType, src:'drive', loading:false });
-    });
-
+    vidFiles.forEach(f => driveVids.push({ name:f.name, url:null, id:f.id, mimeType:f.mimeType, src:'drive', loading:true }));
     renderAll();
 
-    // Load image blobs progressively
+    // Load images as blobs
     for(let i=0; i<imgFiles.length; i++){
       const blobUrl = await fetchDriveFile(imgFiles[i].id);
       if(blobUrl){
@@ -1082,8 +1069,19 @@ async function loadDriveMedia(){
         driveImgs[i].loading = false;
         const ai = allImgs.find(p => p.id === imgFiles[i].id);
         if(ai){ ai.url = blobUrl; ai.loading = false; }
-        // Update the card in DOM
         refreshImgCard(imgFiles[i].id, blobUrl, i);
+      }
+    }
+
+    // Load videos as blobs — same method as images, fixes CORS
+    for(let i=0; i<vidFiles.length; i++){
+      const blobUrl = await fetchDriveFile(vidFiles[i].id);
+      if(blobUrl){
+        driveVids[i].url = blobUrl;
+        driveVids[i].loading = false;
+        const av = allVids.find(p => p.id === vidFiles[i].id);
+        if(av){ av.url = blobUrl; av.loading = false; }
+        refreshVidCard(vidFiles[i].id, blobUrl, i);
       }
     }
 
@@ -1097,6 +1095,31 @@ function deduplicateDriveFiles(files){
     if(seen.has(k)) return false;
     seen.add(k); return true;
   });
+}
+
+function refreshVidCard(driveId, blobUrl, driveIdx){
+  const grid = document.getElementById("vidGrid");
+  const card = grid.querySelector(`.pcard[data-drive-id="${driveId}"]`);
+  if(!card) return;
+  card.innerHTML = "";
+  const vidEl = document.createElement("video");
+  vidEl.src = blobUrl; vidEl.className="vid-thumb";
+  vidEl.preload="metadata"; vidEl.muted=true; vidEl.playsInline=true;
+  vidEl.addEventListener("loadedmetadata", ()=>{ vidEl.currentTime = 1; });
+  const glass = document.createElement("div"); glass.className="cglass";
+  ["tl","tr","bl","br"].forEach(p=>{ const b=document.createElement("div"); b.className=`cbr ${p}`; card.appendChild(b); });
+  const playOverlay = document.createElement("div"); playOverlay.className="play-overlay";
+  playOverlay.innerHTML=`<div class="play-btn-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>`;
+  const vidBadge = document.createElement("div"); vidBadge.className="vid-badge";
+  vidBadge.innerHTML=`<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> VIDEO`;
+  const srcBadge = document.createElement("div"); srcBadge.className="src-badge drive"; srcBadge.textContent="Drive";
+  const num = document.createElement("div"); num.className="cnum"; num.textContent=String(driveIdx+1).padStart(2,"0");
+  card.appendChild(vidEl); card.appendChild(glass);
+  card.appendChild(playOverlay); card.appendChild(vidBadge);
+  card.appendChild(srcBadge); card.appendChild(num);
+  const vidObj = driveVids[driveIdx];
+  card.addEventListener("click", ()=> openVidLb(allVids.indexOf(vidObj)));
+  card.classList.add("vis");
 }
 
 function refreshImgCard(driveId, blobUrl, driveIdx){
